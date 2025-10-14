@@ -1,5 +1,6 @@
 <script>
     import { scale } from "svelte/transition";
+    import { onMount } from "svelte";
 
     export let hoveredEvent;
     export let i;
@@ -30,7 +31,19 @@
     const xSide = i / (datos.length - 1);
 
     // Ruta de la imagen
-    $: imageSrc = `static/images/${hoveredEvent.report}.png`;
+    $: imageSrc = hoveredEvent?.report
+        ? `static/images/${hoveredEvent.report}.png`
+        : null;
+
+    // Preload de todas las imágenes de reports
+    onMount(() => {
+        datos.forEach((d) => {
+            if (d.report) {
+                const img = new Image();
+                img.src = `static/images/${d.report}.png`;
+            }
+        });
+    });
 </script>
 
 {#if hoveredEvent}
@@ -53,7 +66,7 @@
             >
                 <div
                     xmlns="http://www.w3.org/1999/xhtml"
-                    class="tooltip no-transform"
+                    class="tooltip"
                     style="text-align: {xSide >= 0.8 ? 'right' : 'left'};"
                     bind:this={eventInfoElement}
                 >
@@ -124,7 +137,7 @@
             >
                 <div
                     xmlns="http://www.w3.org/1999/xhtml"
-                    class="tooltip info-tooltip no-transform"
+                    class="tooltip info-tooltip"
                     style="text-align: {xSide >= 0.8 ? 'right' : 'left'};"
                     pointer-events="none"
                     bind:this={infoElement}
@@ -136,8 +149,8 @@
                 </div>
             </foreignObject>
 
-            <!-- Imagen animada a la izquierda del tooltip -->
-            {#if hoveredEvent.report}
+            <!-- Imagen pre-cargada -->
+            {#if imageSrc}
                 <foreignObject
                     x={xSide < 0.8 ? -95 : 5}
                     y="-135"
@@ -153,7 +166,6 @@
                             src={imageSrc}
                             alt={`${hoveredEvent.report}`}
                             style="width: 80px; height: auto; border: 1px solid #ccc;"
-                            on:load={(e) => (e.target.style.opacity = 1)}
                         />
                     </div>
                 </foreignObject>
@@ -164,7 +176,7 @@
 
 <style>
     .tooltip {
-        color: #787878;
+        color: #9d9d9c;
         font-size: 13px;
         max-width: 220px;
         word-wrap: break-word;
@@ -172,19 +184,17 @@
         padding: 0;
         user-select: none;
     }
+
     .tooltip-divider {
         border: none;
         border-top: 1px solid #ccc;
         margin: 4px 0;
     }
+
     .info-tooltip {
         color: #3aadc7;
         display: block;
         flex-direction: column;
         justify-content: flex-end;
-    }
-    .no-transform {
-        transform: none !important;
-        backface-visibility: hidden;
     }
 </style>
