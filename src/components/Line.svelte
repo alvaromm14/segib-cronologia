@@ -10,7 +10,7 @@
     x2={innerWidth}
     y2={height / 2.5}
     stroke="#9d9d9c"
-    stroke-width="1"
+    stroke-width="1.5"
 />
 
 <line

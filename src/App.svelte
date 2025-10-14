@@ -81,9 +81,8 @@
 
             <!-- Círculo -->
             <circle
-              r="6"
               fill={!grayYears.includes(year.year) ? "#3aadc7" : "#9d9d9c"}
-              class={year ? "blink" : ""}
+              class={year ? "blink" : "normal"}
               on:mouseover={() => (hoveredEvent = year)}
               on:mouseleave={() => (hoveredEvent = null)}
             />
@@ -153,33 +152,27 @@
     margin: 0 auto;
   }
 
-  circle {
+  .timeline circle {
     cursor: pointer;
     transition: transform 0.2s;
   }
-  circle:hover {
-    transform: scale(1.3);
+  .timeline circle:hover {
+    transform: scale(1.2);
   }
 
   @keyframes blinkAnimation {
     0%,
     100% {
       opacity: 1;
-      r: 6;
+      r: 7.5;
     }
     50% {
       opacity: 0.6;
-      r: 8;
+      r: 9;
     }
   }
   .blink {
     animation: blinkAnimation 1s ease-in-out 3 forwards;
-  }
-
-  text {
-    transition:
-      font-weight 0.2s,
-      fill 0.2s;
   }
 
   .highlight-year {

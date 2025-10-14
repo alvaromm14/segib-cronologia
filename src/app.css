@@ -3,9 +3,6 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
 :root {
   font-family: "Lato", system-ui, -apple-system, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

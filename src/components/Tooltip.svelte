@@ -53,7 +53,7 @@
             >
                 <div
                     xmlns="http://www.w3.org/1999/xhtml"
-                    class="tooltip"
+                    class="tooltip no-transform"
                     style="text-align: {xSide >= 0.8 ? 'right' : 'left'};"
                     bind:this={eventInfoElement}
                 >
@@ -124,7 +124,7 @@
             >
                 <div
                     xmlns="http://www.w3.org/1999/xhtml"
-                    class="tooltip info-tooltip"
+                    class="tooltip info-tooltip no-transform"
                     style="text-align: {xSide >= 0.8 ? 'right' : 'left'};"
                     pointer-events="none"
                     bind:this={infoElement}
@@ -153,6 +153,7 @@
                             src={imageSrc}
                             alt={`${hoveredEvent.report}`}
                             style="width: 80px; height: auto; border: 1px solid #ccc;"
+                            on:load={(e) => (e.target.style.opacity = 1)}
                         />
                     </div>
                 </foreignObject>
@@ -163,8 +164,8 @@
 
 <style>
     .tooltip {
-        color: #9d9d9c;
-        font-size: 12px;
+        color: #787878;
+        font-size: 13px;
         max-width: 220px;
         word-wrap: break-word;
         background: none;
@@ -181,5 +182,9 @@
         display: block;
         flex-direction: column;
         justify-content: flex-end;
+    }
+    .no-transform {
+        transform: none !important;
+        backface-visibility: hidden;
     }
 </style>
