@@ -23,7 +23,7 @@
       <!-- Texto initiatives -->
       <text
         bind:this={textElement}
-        y={parts.length > 1 ? "-50" : "-37"}
+        y={parts.length > 1 ? "-28" : "-15"}
         text-anchor="middle"
         font-size={initiatives === "3.500 iniciativas"
           ? "0.7rem"
@@ -43,24 +43,6 @@
         {:else}
           {initiatives}
         {/if}
-      </text>
-    </g>
-  {/if}
-
-  {#if report && !hoveredEvent}
-    <g transition:scale={{ duration: 600, opacity: 0 }}>
-      <!-- Fondo cuadrado para report -->
-      <rect x="-10" y="-27.5" width="20" height="16" fill="#3aadc7" rx="4" />
-      <!-- Número de report -->
-      <text
-        y="-16"
-        text-anchor="middle"
-        font-size="0.7em"
-        fill="#fff"
-        font-weight="bold"
-        pointer-events="none"
-      >
-        {report}
       </text>
     </g>
   {/if}

@@ -12,6 +12,7 @@
   $: innerWidth = width - margin.left - margin.right;
 
   let hoveredEvent = null;
+  let selectedEvent = null;
   let tooltipHeight = 0;
   let infoElement;
   let eventTooltipHeight = 0;
@@ -21,25 +22,35 @@
     2000, 2001, 2002, 2003, 2004, 2005, 2006, 2013, 2021, 2023, 2025,
   ];
 
-  // Derivar events desde hoveredEvent
-  $: events = hoveredEvent
+  // Evento activo (hover o click)
+  $: activeEvent = hoveredEvent || selectedEvent;
+
+  // Derivar events desde activeEvent
+  $: events = activeEvent
     ? [
-        { title: hoveredEvent.event, desc: hoveredEvent.event_description },
-        { title: hoveredEvent.event1, desc: hoveredEvent.event1_description },
-        { title: hoveredEvent.event2, desc: hoveredEvent.event2_description },
+        { title: activeEvent.event, desc: activeEvent.event_description },
+        { title: activeEvent.event1, desc: activeEvent.event1_description },
+        { title: activeEvent.event2, desc: activeEvent.event2_description },
       ].filter((e) => e.title)
     : [];
 
-  // Medir altura del tooltip superior
-  $: if (infoElement) {
-    tooltipHeight = infoElement.offsetHeight + 10; // margen extra
-  }
-  $: if (eventInfoElement) {
+  // Medir alturas
+  $: if (infoElement) tooltipHeight = infoElement.offsetHeight + 10;
+  $: if (eventInfoElement)
     eventTooltipHeight = eventInfoElement.offsetHeight + 10;
+
+  // Función para click en círculo
+  function toggleSelection(year) {
+    if (selectedEvent && selectedEvent.year === year.year) {
+      selectedEvent = null; // desactiva si clicas el mismo
+    } else {
+      selectedEvent = year; // selecciona uno nuevo
+    }
   }
 </script>
 
 <h1>15 Informes Sur-Sur en 25 años de Cooperación al Desarrollo</h1>
+
 <div class="legend">
   <div class="legend-item">
     <svg width="16" height="16">
@@ -57,9 +68,12 @@
   </div>
 </div>
 
-<div class="timeline" bind:clientWidth={width}>
+<div
+  class="timeline"
+  bind:clientWidth={width}
+  on:click={() => (selectedEvent = null)}
+>
   <svg {width} {height}>
-    <!-- Logo -->
     <image href="static/images/logo.png" x="40" y="40" height="75" />
 
     <g transform="translate({margin.left}, {margin.top})">
@@ -71,20 +85,26 @@
             transform="translate({(i / (datos.length - 1)) *
               innerWidth}, {height / 2.5})"
           >
-            {#if !grayYears.includes(year.year)}
+            {#if !grayYears.includes(year.year) && !activeEvent}
               <InitiativeReport
                 report={year.report}
                 initiatives={year.initiatives}
-                {hoveredEvent}
               />
             {/if}
 
-            <!-- Círculo -->
+            <!-- Círculo interactivo -->
             <circle
               fill={!grayYears.includes(year.year) ? "#3aadc7" : "#9d9d9c"}
               class={year ? "blink" : "normal"}
-              on:mouseover={() => (hoveredEvent = year)}
+              on:mouseover={() => {
+                hoveredEvent = year;
+                selectedEvent = null; // olvida el tooltip fijado
+              }}
               on:mouseleave={() => (hoveredEvent = null)}
+              on:click={(e) => {
+                e.stopPropagation();
+                toggleSelection(year);
+              }}
             />
 
             <!-- Año -->
@@ -92,8 +112,8 @@
               y="25"
               text-anchor="middle"
               font-size="12"
-              class:hovered={hoveredEvent && hoveredEvent.year === year.year}
-              class={hoveredEvent && hoveredEvent.year === year.year
+              class:hovered={activeEvent && activeEvent.year === year.year}
+              class={activeEvent && activeEvent.year === year.year
                 ? "highlight-year"
                 : ""}
               fill="#666"
@@ -103,9 +123,10 @@
               {year.year}
             </text>
 
-            {#if hoveredEvent && hoveredEvent.year === year.year}
+            <!-- Tooltip -->
+            {#if activeEvent && activeEvent.year === year.year}
               <Tooltip
-                {hoveredEvent}
+                hoveredEvent={activeEvent}
                 {i}
                 {datos}
                 bind:infoElement
@@ -121,12 +142,11 @@
   </svg>
 </div>
 
-<!-- Medición invisible -->
 <div
   style="position:absolute; visibility:hidden; width:220px; pointer-events:none; white-space:pre-wrap;"
   bind:this={infoElement}
 >
-  {hoveredEvent?.info}
+  {activeEvent?.info}
 </div>
 
 <style>
@@ -148,7 +168,6 @@
   .timeline {
     position: relative;
     max-width: 1500px;
-    max-height: 0px;
     margin: 0 auto;
   }
 
@@ -183,10 +202,10 @@
   .legend {
     display: flex;
     align-items: center;
-    gap: 20px; /* Espacio entre leyendas */
+    gap: 20px;
     margin: 10px auto;
     font-size: 13px;
-    flex-wrap: wrap; /* Que baje a la siguiente línea si no cabe */
+    flex-wrap: wrap;
     justify-content: center;
   }
 
