@@ -1,9 +1,16 @@
 <script>
   import { scale } from "svelte/transition";
   import Line from "./components/Line.svelte";
-  import datos from "./data/data.js";
   import Tooltip from "./components/Tooltip.svelte";
   import ArrowText from "./components/ArrowText.svelte";
+  import { onMount } from "svelte";
+
+  let datos = [];
+
+  onMount(async () => {
+    const res = await fetch("/data/data.json");
+    datos = await res.json();
+  });
 
   let width = 550;
   let height = 500;
