@@ -8,7 +8,7 @@
   let datos = [];
 
   onMount(async () => {
-    const res = await fetch("/data/data.json");
+    const res = await fetch("static/data.json"); // ya no /data/data.json
     datos = await res.json();
   });
 
