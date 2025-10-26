@@ -8,6 +8,7 @@ export default [
         "event2": "",
         "event2_description": "",
         "info": "",
+        
     },
     {
         "year": 2001,
@@ -91,6 +92,7 @@ export default [
     {
         "year": 2008,
                 "report": "2",
+                        "reportUrl": "https://informesursur.org/wp-content/uploads/2021/03/sursurwebes2008.pdf",
         "event":
             "3er Foro de Alto Nivel sobre Eficacia de la Ayuda en Accra, Ghana.",
         "event_description": "",
@@ -105,7 +107,8 @@ export default [
     },
     {
         "year": 2009,
-                "report": "3",
+        "report": "3",
+        "reportUrl": "https://informesursur.org/wp-content/uploads/2021/03/sur-surweb2009.pdf",
         "event": "1er Foro de Cooperación al Desarrollo de ECOSOC,",
         "event_description": "que se celebrará bienalmente.",
         "event1":
@@ -118,8 +121,9 @@ export default [
     },
     {
         "year": 2010,
-                "report": "4",
-                "initiatives": "3.500 iniciativas",
+        "report": "4",
+        "reportUrl": "https://informesursur.org/wp-content/uploads/2021/03/inf-coop-sur-sur-2010.pdf",
+        "initiatives": "3.500 iniciativas",
         "event": "",
         "event_description": "",
         "event1": "",
@@ -132,7 +136,8 @@ export default [
     {
         "year": 2011,
                 "report": "5",
-        "event":
+                "reportUrl": "https://informesursur.org/wp-content/uploads/2021/03/informe-sur-sur-2011-esp.pdf",
+"event":
             "4° Foro de Alto Nivel sobre la Eficacia de la Ayuda en Busan, Corea del Sur.",
         "event_description": "",
         "event1": "",
@@ -142,10 +147,13 @@ export default [
         "event2_description": "",
         "info":
             "En el FAN de Busan se presenta posición consensuada de los RCs en el marco del PIFCSS. Luego del terremoto de Haití, el Informe incorpora el análisis de la CSSyT con el Caribe no Iberoamericano y <b>progresivamente con otras regiones.</b> Resultado acumulado actual: <b>más de 1.850 intercambios junto a más de 130 países del Sur Global.</b>",
+                    "image": "4-high-level-forum",
     },
     {
         "year": 2012,
                 "report": "6",
+                                "reportUrl": "https://informesursur.org/wp-content/uploads/2021/03/informe-sur-sur-2012.pdf",
+
                                 "initiatives": "5.000",
         "event":
             "Conferencia de las Naciones Unidas sobre el Desarrollo Sostenible (Cumbre “Río+20”), en Rio de Janeiro, Brasil.",
@@ -155,6 +163,7 @@ export default [
         "event2": "",
         "event2_description": "",
         "info": "La base de datos del Informe supera las <b>5.000 iniciativas.</b>",
+                "image": "rio+20",
     },
     {
         "year": 2013,
@@ -169,6 +178,7 @@ export default [
     {
         "year": 2014,
         "report": "7",
+        "reportUrl": "https://informesursur.org/wp-content/uploads/2021/03/informe-de-la-cooperacion-sur-sur-en-iberoamerica-2013-2014.pdf",
         "event": "1ª Reunión de Alto Nivel de la Alianza Global para la Cooperación Eficaz al Desarrollo en Ciudad de México.",
         "event_description": "",
         "event1": "",
@@ -180,6 +190,7 @@ export default [
     {
         "year": 2015,
                 "report": "8",
+                        "reportUrl": "https://informesursur.org/wp-content/uploads/2021/03/informe-cooperacion-sur-sur-2015-espa-ol-nuevo.pdf",
         "event":
             "3ª Conferencia Internacional sobre la Financiación para el Desarrollo en Etiopía.",
         "event_description":
@@ -191,10 +202,12 @@ export default [
         "event2_description": "",
         "info":
             "<b>Inicio operativo del Sistema Integrado de Datos (SIDICSS)</b>, base regional, online, único a nivel global que permite el cargado y el <b>proceso de cross-check de los datos.</b> Desde entonces, han sido usuarios <b>más de 500 profesionales</b> de las Agencias y DGCI de los 22 países iberoamericanos.",
-    },
+                    "image": "lista-objetivos",
+                },
     {
         "year": 2016,
                 "report": "9",
+                                        "reportUrl": "https://informesursur.org/wp-content/uploads/2021/03/informecss-es-20161.pdf",
                                 "initiatives": "7.500",
         "event":
             "2ª Reunión de Alto Nivel de la Alianza Global para la Cooperación Eficaz al Desarrollo en Nairobi, Kenia.",
@@ -211,6 +224,8 @@ export default [
     {
         "year": 2017,
                 "report": "10",
+                                                        "reportUrl": "https://informesursur.org/wp-content/uploads/2021/03/informeespannol2017web.pdf",
+
         "event": "1ª Reunión del Task Force del TOSSD en París, Francia.",
         "event_description":
             "Se impulsa una métrica sobre los aportes a los ODS, más allá de la AOD.",
@@ -225,6 +240,7 @@ export default [
     {
         "year": 2018,
                 "report": "11",
+                                                                        "reportUrl": "https://segib.org/wp-content/uploads/2019/03/BAJA_sur-sur2018_ES_completo.pdf",
         "event":
             "10ª Edición de la Expo Global sobre Desarrollo Sur-Sur (UNOSSC) en Nueva York, NNUU.",
         "event_description": "",
@@ -237,7 +253,8 @@ export default [
     },
     {
         "year": 2019,
-                "report": "12",
+        "report": "12",
+        "reportUrl": "https://informesursur.org/wp-content/uploads/2021/03/esp-informe-completo.pdf",
         "event": "1ª Cumbre de los ODS en Nueva York, NNUU.",
         "event_description": "Revisa el progreso de la Agenda 2030.",
         "event1":
@@ -247,11 +264,13 @@ export default [
         "event2_description": "",
         "info":
             "Se superan las <b>100 presentaciones internacionales del Informe.</b> Destacan las Cumbres Iberoamericanas, las Expo Sur-Sur y el <b>PABA+40.</b> El PNUD desarrolla el Primer <b>Informe de CSS en África</b>, con el apoyo técnico de la SEGIB.",
-    },
+        "image": "paba+40",
+                    },
     {
         "year": 2020,
-                "report": "13",
-                                "initiatives": "9.000",
+        "report": "13",
+        "reportUrl": "https://informesursur.org/wp-content/uploads/2022/09/informeescorregido.pdf",
+        "initiatives": "9.000",
         "event": "",
         "event_description": "",
         "event1": "",
@@ -274,7 +293,8 @@ export default [
     },
     {
         "year": 2022,
-                "report": "14",
+        "report": "14",
+        "reportUrl": "https://informesursur.org/wp-content/uploads/2023/03/informe2022-completoes-2.pdf",
         "event":
             "Expo Global sobre Desarrollo Sur-Sur (UNOSSC) en Bangkok, Tailandia.",
         "event_description":
@@ -301,6 +321,8 @@ export default [
     {
         "year": 2024,
                 "report": "15",
+                        "reportUrl": "https://informesursur.org/wp-content/uploads/2024/11/informe-final-espanol.pdf",
+
                                 "initiatives": "10.432",
         "event": "Cumbre del Futuro en Nueva York, NNUU.",
         "event_description": "Impulsa un Pacto para el Futuro.",
@@ -313,7 +335,8 @@ export default [
             "Liderado por UNCTAD, reúne a países y agencias multilaterales de distintas regiones.",
         "info":
             "La <b>edición número 15</b> del Informe se presenta en la XXIX Cumbre de Cuenca (Ecuador). En un ejercicio regional sin precedentes a nivel global, <b>más de 2.800 páginas de analisis y conceptualización</b>, constituyen <b>un relato único de la CSSyT que durante casi dos décadas han realizado los 22 países iberoamericanos.</b>",
-    },
+                        "image": "cumbre-futuro",
+                    },
     {
         "year": 2025,
         "event":

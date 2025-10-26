@@ -9,6 +9,7 @@
     export let eventInfoElement;
     export let tooltipHeight = 0;
     export let eventTooltipHeight = 0;
+    export let vertical = false;
 
     // Derivamos los eventos
     $: events = hoveredEvent
@@ -16,58 +17,70 @@
               {
                   title: hoveredEvent.event,
                   desc: hoveredEvent.event_description,
+                  image: hoveredEvent.image,
               },
               {
                   title: hoveredEvent.event1,
                   desc: hoveredEvent.event1_description,
+                  image: hoveredEvent.image1,
               },
               {
                   title: hoveredEvent.event2,
                   desc: hoveredEvent.event2_description,
+                  image: hoveredEvent.image2,
               },
           ].filter((e) => e.title)
         : [];
 
     const xSide = i / (datos.length - 1);
 
-    // Ruta de la imagen
     $: imageSrc = hoveredEvent?.report
         ? `static/images/${hoveredEvent.report}.png`
         : null;
 
-    // Preload de todas las imágenes de reports
     onMount(() => {
         datos.forEach((d) => {
-            if (d.report) {
-                const img = new Image();
-                img.src = `static/images/${d.report}.png`;
-            }
+            if (d.report) new Image().src = `static/images/${d.report}.png`;
+            ["image", "image1", "image2"].forEach((key) => {
+                if (d[key]) new Image().src = `static/images/${d[key]}.png`;
+            });
         });
     });
+
+    const endThreshold = 0.8;
 </script>
 
 {#if hoveredEvent}
-    <!-- Tooltip abajo (events) -->
+    <!-- 🟡 Tooltip normal -->
     {#if events.length}
         <g class="tooltip-group" transition:scale={{ duration: 400 }}>
-            <line
-                y1="35"
-                y2={51 + eventTooltipHeight}
-                stroke="#9d9d9c"
-                stroke-width="2"
-            />
+            {#if !vertical}
+                <line
+                    y1="35"
+                    y2={51 + eventTooltipHeight}
+                    stroke="#ecba56"
+                    stroke-width="1.5"
+                />
+            {/if}
 
             <foreignObject
-                x={xSide < 0.8 ? 8 : -228}
-                y="65"
-                width="250"
-                height="200"
-                pointer-events="none"
+                x={vertical ? 53 : xSide < 0.8 ? 8 : -228}
+                y={vertical
+                    ? xSide > endThreshold
+                        ? -eventTooltipHeight + 21
+                        : -6
+                    : 65}
+                width={vertical ? "180" : "250"}
+                height={vertical ? "300" : "200"}
             >
                 <div
                     xmlns="http://www.w3.org/1999/xhtml"
                     class="tooltip"
-                    style="text-align: {xSide >= 0.8 ? 'right' : 'left'};"
+                    style="text-align: {vertical
+                        ? 'left'
+                        : xSide >= 0.8
+                          ? 'right'
+                          : 'left'};"
                     bind:this={eventInfoElement}
                 >
                     {#each events as e, index}
@@ -81,7 +94,6 @@
                             <span style="font-weight: bold;">{e.title}</span>
                             {e.desc ? ` ${e.desc}` : ""}
                         </div>
-
                         {#if index < events.length - 1}
                             <hr
                                 class="tooltip-divider"
@@ -97,63 +109,27 @@
         </g>
     {/if}
 
-    <!-- Tooltip arriba (info) -->
+    <!-- 🔵 Tooltip info -->
     {#if hoveredEvent.info}
         <g class="tooltip-group" transition:scale={{ duration: 400 }}>
-            <line
-                y1="-20"
-                y2={-tooltipHeight - 30}
-                stroke="#3aadc7"
-                stroke-width="2"
-            />
-
-            {#if hoveredEvent.report}
-                <rect
-                    x={xSide >= 0.8 ? "6" : "-29"}
-                    y="-158"
-                    width="20"
-                    height="16"
-                    fill="white"
-                    rx="4"
-                    stroke="#3aadc7"
+            {#if !vertical}
+                <line
+                    y1="-20"
+                    y2={-tooltipHeight - 30}
+                    stroke="#589ea4"
+                    stroke-width="1.5"
                 />
-                <text
-                    y="-146"
-                    x={xSide >= 0.8 ? "16" : "-19"}
-                    text-anchor="middle"
-                    font-size="0.7em"
-                    fill="#3aadc7"
-                    font-weight="bold"
-                >
-                    {hoveredEvent.report}
-                </text>
             {/if}
 
-            <foreignObject
-                x={xSide < 0.8 ? 8 : -228}
-                y={-tooltipHeight - 32}
-                width="250"
-                height={tooltipHeight}
-            >
-                <div
-                    xmlns="http://www.w3.org/1999/xhtml"
-                    class="tooltip info-tooltip"
-                    style="text-align: {xSide >= 0.8 ? 'right' : 'left'};"
-                    pointer-events="none"
-                    bind:this={infoElement}
-                >
-                    {@html hoveredEvent.info.replace(
-                        /<b>/g,
-                        '<b style="font-weight:bold; display:inline;">',
-                    )}
-                </div>
-            </foreignObject>
-
-            <!-- Imagen pre-cargada -->
+            <!-- Imagen sobre el tooltip info -->
             {#if imageSrc}
                 <foreignObject
-                    x={xSide < 0.8 ? -95 : 5}
-                    y="-135"
+                    x={vertical ? -115 : xSide < 0.8 ? -95 : 5}
+                    y={vertical
+                        ? xSide > endThreshold
+                            ? -tooltipHeight - 105
+                            : -120
+                        : -135}
                     width="90"
                     height="120"
                 >
@@ -162,39 +138,111 @@
                         style="display:flex; justify-content:center; align-items:center;"
                         transition:scale={{ duration: 400 }}
                     >
-                        <img
-                            src={imageSrc}
-                            alt={`${hoveredEvent.report}`}
-                            style="width: 80px; height: auto; border: 1px solid #ccc;"
-                        />
+                        <a
+                            href={hoveredEvent.reportUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <img
+                                src={imageSrc}
+                                alt={`${hoveredEvent.report}`}
+                                style="width: 80px; height: auto; border: 1px solid #ccc;"
+                            />
+                        </a>
                     </div>
                 </foreignObject>
             {/if}
+
+            <!-- Número report -->
+            {#if hoveredEvent.report}
+                <rect
+                    x={vertical ? -136 : xSide >= 0.8 ? "6" : "-29"}
+                    y={vertical
+                        ? xSide > endThreshold
+                            ? -tooltipHeight - 6
+                            : -20
+                        : -158}
+                    width="20"
+                    height="16"
+                    fill="white"
+                    rx="4"
+                    stroke="#589ea4"
+                />
+                <text
+                    x={vertical ? -126 : xSide >= 0.8 ? "16" : "-19"}
+                    y={vertical
+                        ? xSide > endThreshold
+                            ? -tooltipHeight + 6
+                            : -8
+                        : -146}
+                    text-anchor="middle"
+                    font-size="0.7em"
+                    fill="#589ea4"
+                    font-weight="bold"
+                >
+                    {hoveredEvent.report}
+                </text>
+            {/if}
+
+            <!-- Texto tooltip info -->
+            <foreignObject
+                x={vertical ? -230 : xSide < 0.8 ? 8 : -228}
+                y={vertical
+                    ? xSide > endThreshold
+                        ? -tooltipHeight + 16
+                        : 0
+                    : -tooltipHeight - 32}
+                width={vertical ? "200" : "250"}
+                height={tooltipHeight}
+            >
+                <div
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    class="tooltip info-tooltip"
+                    style="text-align: {vertical
+                        ? 'right'
+                        : xSide >= 0.8
+                          ? 'right'
+                          : 'left'};
+           user-select: {vertical ? 'none' : 'text'};"
+                    bind:this={infoElement}
+                    on:mousedown|stopPropagation
+                    on:mouseup|stopPropagation
+                    on:click|stopPropagation
+                >
+                    {@html hoveredEvent.info.replace(
+                        /<b>/g,
+                        '<b style="font-weight:bold; display:inline;">',
+                    )}
+                </div>
+            </foreignObject>
         </g>
     {/if}
 {/if}
 
 <style>
     .tooltip {
-        color: #9d9d9c;
+        color: #ecba56;
         font-size: 13px;
         max-width: 220px;
-        word-wrap: break-word;
         background: none;
         padding: 0;
-        user-select: none;
+    }
+
+    .info-tooltip {
+        color: #589ea4;
+        font-size: 13px;
     }
 
     .tooltip-divider {
         border: none;
-        border-top: 1px solid #ccc;
+        border-top: 1px solid #ecba56;
         margin: 4px 0;
+        opacity: 0.6;
     }
 
-    .info-tooltip {
-        color: #3aadc7;
-        display: block;
-        flex-direction: column;
-        justify-content: flex-end;
+    img {
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     }
 </style>
