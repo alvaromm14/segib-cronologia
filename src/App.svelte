@@ -119,9 +119,7 @@
               text-anchor={vertical ? "start" : "middle"}
               font-size="12"
               class:hovered={activeEvent && activeEvent.year === year.year}
-              class={activeEvent && activeEvent.year === year.year
-                ? "highlight-year"
-                : ""}
+              class={`${activeEvent && activeEvent.year === year.year ? "highlight-year" : ""} fenix-year`}
               fill="#666"
               pointer-events="none"
               style="cursor: default; user-select: none"
