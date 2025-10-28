@@ -11,7 +11,7 @@
     y1={vertical ? 0 : height / 2.5}
     x2={vertical ? innerWidth / 2 : innerWidth}
     y2={vertical ? height : height / 2.5}
-    stroke="#ecba56"
+    stroke="#589ea4"
     stroke-width="1.5"
 />
 

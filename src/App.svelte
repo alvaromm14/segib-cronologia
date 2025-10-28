@@ -93,7 +93,7 @@
           {#if year.year !== 2001}
             <circle
               r={vertical ? "6" : "7.5"}
-              fill={!grayYears.includes(year.year) ? "#589ea4" : "#ecba56"}
+              fill={"#589ea4"}
               stroke="black"
               stroke-width="0.4"
               class:blink={!tooltipActivated}
@@ -151,7 +151,14 @@
       y={vertical ? height - 20 : height - 40}
       width={vertical ? "160" : "250"}
     />
-  </svg>
+
+    <image
+      href="static/images/segib.png"
+      x={vertical ? innerWidth - 90 : 250}
+      y={vertical ? -10 : height - 70}
+      width={vertical ? "120" : "150"}
+    /></svg
+  >
 </div>
 
 <div
