@@ -62,6 +62,31 @@
                     stroke-width="1.5"
                 />
             {/if}
+            {#each events as e, index}
+                {#if e.image && !vertical}
+                    <foreignObject
+                        x={xSide < 0.8 ? -93 : 5}
+                        y={65 + index * 50}
+                        width="90"
+                        height="70"
+                    >
+                        <div
+                            xmlns="http://www.w3.org/1999/xhtml"
+                            style="display:flex; justify-content:center; align-items:center;"
+                        >
+                            <img
+                                src={`static/images/${e.image}.png`}
+                                alt={e.title}
+                                style="width: 80px; height: auto;"
+                                transition:scale={{
+                                    duration: 400,
+                                    delay: index * 150,
+                                }}
+                            />
+                        </div>
+                    </foreignObject>
+                {/if}
+            {/each}
 
             <foreignObject
                 x={vertical ? 53 : xSide < 0.8 ? 8 : -228}
@@ -150,7 +175,7 @@
                             <img
                                 src={imageSrc}
                                 alt={`${hoveredEvent.report}`}
-                                style="width: 80px; height: auto; border: 1px solid #ccc;"
+                                style="width: 80px; height: auto;"
                             />
                         </a>
                     </div>
@@ -171,6 +196,7 @@
                     fill="white"
                     rx="4"
                     stroke="#589ea4"
+                    user-select="none"
                 />
                 <text
                     x={vertical ? -126 : xSide >= 0.8 ? "16" : "-19"}
