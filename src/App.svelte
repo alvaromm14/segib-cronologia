@@ -59,7 +59,7 @@
 
   // Determinar orientación y alto según ancho
   $: vertical = width < 750;
-  $: height = vertical ? 750 : 550;
+  $: height = vertical ? 730 : 520;
 </script>
 
 <div

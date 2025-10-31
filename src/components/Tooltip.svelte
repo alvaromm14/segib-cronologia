@@ -38,19 +38,28 @@
         ? `static/images/${hoveredEvent.report}.png`
         : null;
 
-    onMount(() => {
+    let mounted = false;
+
+    onMount(async () => {
+        mounted = true;
         datos.forEach((d) => {
             if (d.report) new Image().src = `static/images/${d.report}.png`;
             ["image", "image1", "image2"].forEach((key) => {
                 if (d[key]) new Image().src = `static/images/${d[key]}.png`;
             });
         });
+        await tick();
+        eventTooltipHeight =
+            eventInfoElement?.getBoundingClientRect().height ||
+            eventTooltipHeight;
+        tooltipHeight =
+            infoElement?.getBoundingClientRect().height || tooltipHeight;
     });
 
     const endThreshold = 0.8;
 </script>
 
-{#if hoveredEvent}
+{#if hoveredEvent && mounted}
     <!-- 🟡 Tooltip normal -->
     {#if events.length}
         <g class="tooltip-group" transition:scale={{ duration: 400 }}>
@@ -140,7 +149,7 @@
                             {/if}
                         </div>
 
-                        {#if index < events.length - 1}
+                        {#if index < events.length - 1 && !vertical}
                             <hr
                                 class="tooltip-divider"
                                 transition:scale={{
