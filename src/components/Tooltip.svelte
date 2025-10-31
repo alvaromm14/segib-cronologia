@@ -1,6 +1,6 @@
 <script>
     import { scale } from "svelte/transition";
-    import { onMount } from "svelte";
+    import { onMount, tick } from "svelte";
 
     export let hoveredEvent;
     export let i;
@@ -10,6 +10,8 @@
     export let tooltipHeight = 0;
     export let eventTooltipHeight = 0;
     export let vertical = false;
+
+    let ready = false; // Controla cuándo mostrar los tooltips
 
     // Derivamos los eventos
     $: events = hoveredEvent
@@ -38,31 +40,36 @@
         ? `static/images/${hoveredEvent.report}.png`
         : null;
 
-    let mounted = false;
+    const endThreshold = 0.8;
 
     onMount(async () => {
-        mounted = true;
+        // Precargar imágenes
         datos.forEach((d) => {
             if (d.report) new Image().src = `static/images/${d.report}.png`;
             ["image", "image1", "image2"].forEach((key) => {
                 if (d[key]) new Image().src = `static/images/${d[key]}.png`;
             });
         });
+
         await tick();
         eventTooltipHeight =
             eventInfoElement?.getBoundingClientRect().height ||
             eventTooltipHeight;
         tooltipHeight =
             infoElement?.getBoundingClientRect().height || tooltipHeight;
-    });
 
-    const endThreshold = 0.8;
+        ready = true;
+    });
 </script>
 
-{#if hoveredEvent && mounted}
+{#if hoveredEvent && ready}
     <!-- 🟡 Tooltip normal -->
     {#if events.length}
-        <g class="tooltip-group" transition:scale={{ duration: 400 }}>
+        <g
+            class="tooltip-group"
+            transition:scale={{ duration: 400 }}
+            style="opacity: {ready ? 1 : 0}"
+        >
             {#if !vertical}
                 <line
                     y1="35"
@@ -71,6 +78,7 @@
                     stroke-width="1.5"
                 />
             {/if}
+
             {#each events as e, index}
                 {#if e.image && !vertical}
                     <foreignObject
@@ -108,18 +116,18 @@
                     ? innerWidth < 400
                         ? innerWidth / 2.9
                         : innerWidth / 2.7
-                    : "250"}
-                height={vertical ? "300" : "200"}
+                    : 250}
+                height={vertical ? 300 : 200}
             >
                 <div
                     xmlns="http://www.w3.org/1999/xhtml"
                     class="tooltip"
+                    bind:this={eventInfoElement}
                     style="text-align: {vertical
                         ? 'left'
                         : xSide >= 0.8
                           ? 'right'
                           : 'left'};"
-                    bind:this={eventInfoElement}
                 >
                     {#each events as e, index}
                         <div
@@ -129,15 +137,12 @@
                                 delay: index * 150,
                             }}
                         >
-                            <!-- Título en negrita -->
                             <span style="font-weight: bold;">
                                 {@html e.title.replace(
                                     /<a /g,
                                     '<a style="color:#ecba56; text-decoration:underline;" target="_blank" rel="noopener noreferrer" ',
                                 )}
                             </span>
-
-                            <!-- Descripción normal -->
                             {#if e.desc}
                                 <span>
                                     {@html " " +
@@ -166,7 +171,11 @@
 
     <!-- 🔵 Tooltip info -->
     {#if hoveredEvent.info}
-        <g class="tooltip-group" transition:scale={{ duration: 400 }}>
+        <g
+            class="tooltip-group"
+            transition:scale={{ duration: 400 }}
+            style="opacity: {ready ? 1 : 0}"
+        >
             {#if !vertical}
                 <line
                     y1="-20"
@@ -176,7 +185,6 @@
                 />
             {/if}
 
-            <!-- Imagen sobre el tooltip info -->
             {#if imageSrc}
                 <foreignObject
                     x={vertical ? -115 : xSide < 0.8 ? -95 : 5}
@@ -208,10 +216,9 @@
                 </foreignObject>
             {/if}
 
-            <!-- Número report -->
             {#if hoveredEvent.report}
                 <rect
-                    x={vertical ? -136 : xSide >= 0.8 ? "6" : "-29"}
+                    x={vertical ? -136 : xSide >= 0.8 ? 6 : -29}
                     y={vertical
                         ? xSide > endThreshold
                             ? -tooltipHeight - 6
@@ -225,7 +232,7 @@
                     user-select="none"
                 />
                 <text
-                    x={vertical ? -126 : xSide >= 0.8 ? "16" : "-19"}
+                    x={vertical ? -126 : xSide >= 0.8 ? 16 : -19}
                     y={vertical
                         ? xSide > endThreshold
                             ? -tooltipHeight + 6
@@ -240,7 +247,6 @@
                 </text>
             {/if}
 
-            <!-- Texto tooltip info -->
             <foreignObject
                 x={vertical
                     ? innerWidth < 400
@@ -260,13 +266,12 @@
                 <div
                     xmlns="http://www.w3.org/1999/xhtml"
                     class="tooltip info-tooltip"
+                    bind:this={infoElement}
                     style="text-align: {vertical
                         ? 'right'
                         : xSide >= 0.8
                           ? 'right'
-                          : 'left'};
-           user-select: {vertical ? 'none' : 'text'};"
-                    bind:this={infoElement}
+                          : 'left'}; user-select: {vertical ? 'none' : 'text'};"
                     on:mousedown|stopPropagation
                     on:mouseup|stopPropagation
                     on:click|stopPropagation
