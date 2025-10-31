@@ -11,7 +11,7 @@
     export let eventTooltipHeight = 0;
     export let vertical = false;
 
-    let ready = false; // Controla cuándo mostrar los tooltips
+    let mounted = false;
 
     // Derivamos los eventos
     $: events = hoveredEvent
@@ -43,7 +43,8 @@
     const endThreshold = 0.8;
 
     onMount(async () => {
-        // Precargar imágenes
+        mounted = true;
+
         datos.forEach((d) => {
             if (d.report) new Image().src = `static/images/${d.report}.png`;
             ["image", "image1", "image2"].forEach((key) => {
@@ -51,25 +52,20 @@
             });
         });
 
+        // Espera a que el DOM se actualice
         await tick();
         eventTooltipHeight =
             eventInfoElement?.getBoundingClientRect().height ||
             eventTooltipHeight;
         tooltipHeight =
             infoElement?.getBoundingClientRect().height || tooltipHeight;
-
-        ready = true;
     });
 </script>
 
-{#if hoveredEvent && ready}
+{#if hoveredEvent && mounted && eventTooltipHeight && tooltipHeight}
     <!-- 🟡 Tooltip normal -->
     {#if events.length}
-        <g
-            class="tooltip-group"
-            transition:scale={{ duration: 400 }}
-            style="opacity: {ready ? 1 : 0}"
-        >
+        <g class="tooltip-group" transition:scale={{ duration: 400 }}>
             {#if !vertical}
                 <line
                     y1="35"
@@ -116,18 +112,18 @@
                     ? innerWidth < 400
                         ? innerWidth / 2.9
                         : innerWidth / 2.7
-                    : 250}
-                height={vertical ? 300 : 200}
+                    : "250"}
+                height={vertical ? "300" : "200"}
             >
                 <div
                     xmlns="http://www.w3.org/1999/xhtml"
                     class="tooltip"
-                    bind:this={eventInfoElement}
                     style="text-align: {vertical
                         ? 'left'
                         : xSide >= 0.8
                           ? 'right'
                           : 'left'};"
+                    bind:this={eventInfoElement}
                 >
                     {#each events as e, index}
                         <div
@@ -143,6 +139,7 @@
                                     '<a style="color:#ecba56; text-decoration:underline;" target="_blank" rel="noopener noreferrer" ',
                                 )}
                             </span>
+
                             {#if e.desc}
                                 <span>
                                     {@html " " +
@@ -171,11 +168,7 @@
 
     <!-- 🔵 Tooltip info -->
     {#if hoveredEvent.info}
-        <g
-            class="tooltip-group"
-            transition:scale={{ duration: 400 }}
-            style="opacity: {ready ? 1 : 0}"
-        >
+        <g class="tooltip-group" transition:scale={{ duration: 400 }}>
             {#if !vertical}
                 <line
                     y1="-20"
@@ -218,7 +211,7 @@
 
             {#if hoveredEvent.report}
                 <rect
-                    x={vertical ? -136 : xSide >= 0.8 ? 6 : -29}
+                    x={vertical ? -136 : xSide >= 0.8 ? "6" : "-29"}
                     y={vertical
                         ? xSide > endThreshold
                             ? -tooltipHeight - 6
@@ -232,7 +225,7 @@
                     user-select="none"
                 />
                 <text
-                    x={vertical ? -126 : xSide >= 0.8 ? 16 : -19}
+                    x={vertical ? -126 : xSide >= 0.8 ? "16" : "-19"}
                     y={vertical
                         ? xSide > endThreshold
                             ? -tooltipHeight + 6
@@ -266,12 +259,13 @@
                 <div
                     xmlns="http://www.w3.org/1999/xhtml"
                     class="tooltip info-tooltip"
-                    bind:this={infoElement}
                     style="text-align: {vertical
                         ? 'right'
                         : xSide >= 0.8
                           ? 'right'
-                          : 'left'}; user-select: {vertical ? 'none' : 'text'};"
+                          : 'left'};
+           user-select: {vertical ? 'none' : 'text'};"
+                    bind:this={infoElement}
                     on:mousedown|stopPropagation
                     on:mouseup|stopPropagation
                     on:click|stopPropagation
