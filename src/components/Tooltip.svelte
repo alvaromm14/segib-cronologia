@@ -9,16 +9,7 @@
     export let eventInfoElement;
     export let tooltipHeight = 0;
     export let eventTooltipHeight = 0;
-    export let vertical = false; // Indica si estamos en modo móvil/vertical
-
-    // Ancho fijo y predecible para tooltips en modo vertical (móvil)
-    const MOBILE_TOOLTIP_WIDTH = 150;
-
-    // Umbral para saber si el evento está cerca del final del eje X
-    const endThreshold = 0.8;
-
-    // Calcula la posición relativa X del evento (0 a 1)
-    $: xSide = i / (datos.length - 1);
+    export let vertical = false;
 
     $: events = hoveredEvent
         ? [
@@ -40,12 +31,13 @@
           ].filter((e) => e.title)
         : [];
 
+    const xSide = i / (datos.length - 1);
+
     $: imageSrc = hoveredEvent?.report
         ? `static/images/${hoveredEvent.report}.png`
         : null;
 
     onMount(() => {
-        // Precarga de imágenes para evitar saltos
         datos.forEach((d) => {
             if (d.report) new Image().src = `static/images/${d.report}.png`;
             ["image", "image1", "image2"].forEach((key) => {
@@ -53,14 +45,14 @@
             });
         });
     });
+
+    const endThreshold = 0.8;
 </script>
 
 {#if hoveredEvent}
+    <!-- 🟡 Tooltip normal -->
     {#if events.length}
-        <g
-            class="tooltip-group event-tooltip"
-            transition:scale={{ duration: 400 }}
-        >
+        <g class="tooltip-group" transition:scale={{ duration: 400 }}>
             {#if !vertical}
                 <line
                     y1="35"
@@ -69,7 +61,6 @@
                     stroke-width="1.5"
                 />
             {/if}
-
             {#each events as e, index}
                 {#if e.image && !vertical}
                     <foreignObject
@@ -97,18 +88,18 @@
             {/each}
 
             <foreignObject
-                x={vertical
-                    ? 53 // Posición fija en el eje X para el modo vertical
-                    : xSide < 0.8
-                      ? 8
-                      : -228}
+                x={vertical ? 53 : xSide < 0.8 ? 8 : -228}
                 y={vertical
                     ? xSide > endThreshold
                         ? -eventTooltipHeight + 21
                         : -6
                     : 65}
-                width={vertical ? MOBILE_TOOLTIP_WIDTH : 250}
-                height={vertical ? 300 : 200}
+                width={vertical
+                    ? innerWidth < 400
+                        ? innerWidth / 2.9
+                        : innerWidth / 2.7
+                    : "250"}
+                height={vertical ? "300" : "200"}
             >
                 <div
                     xmlns="http://www.w3.org/1999/xhtml"
@@ -128,6 +119,7 @@
                                 delay: index * 150,
                             }}
                         >
+                            <!-- Título en negrita -->
                             <span style="font-weight: bold;">
                                 {@html e.title.replace(
                                     /<a /g,
@@ -135,6 +127,7 @@
                                 )}
                             </span>
 
+                            <!-- Descripción normal -->
                             {#if e.desc}
                                 <span>
                                     {@html " " +
@@ -146,7 +139,7 @@
                             {/if}
                         </div>
 
-                        {#if index < events.length - 1}
+                        {#if index < events.length - 1 && !vertical}
                             <hr
                                 class="tooltip-divider"
                                 transition:scale={{
@@ -161,11 +154,9 @@
         </g>
     {/if}
 
+    <!-- 🔵 Tooltip info -->
     {#if hoveredEvent.info}
-        <g
-            class="tooltip-group info-tooltip-group"
-            transition:scale={{ duration: 400 }}
-        >
+        <g class="tooltip-group" transition:scale={{ duration: 400 }}>
             {#if !vertical}
                 <line
                     y1="-20"
@@ -175,13 +166,10 @@
                 />
             {/if}
 
+            <!-- Imagen sobre el tooltip info -->
             {#if imageSrc}
                 <foreignObject
-                    x={vertical
-                        ? -(MOBILE_TOOLTIP_WIDTH + 20)
-                        : xSide < 0.8
-                          ? -95
-                          : 5}
+                    x={vertical ? -115 : xSide < 0.8 ? -95 : 5}
                     y={vertical
                         ? xSide > endThreshold
                             ? -tooltipHeight - 105
@@ -210,13 +198,10 @@
                 </foreignObject>
             {/if}
 
+            <!-- Número report -->
             {#if hoveredEvent.report}
                 <rect
-                    x={vertical
-                        ? -(MOBILE_TOOLTIP_WIDTH + 41)
-                        : xSide >= 0.8
-                          ? 6
-                          : -29}
+                    x={vertical ? -136 : xSide >= 0.8 ? "6" : "-29"}
                     y={vertical
                         ? xSide > endThreshold
                             ? -tooltipHeight - 6
@@ -230,11 +215,7 @@
                     user-select="none"
                 />
                 <text
-                    x={vertical
-                        ? -(MOBILE_TOOLTIP_WIDTH + 31)
-                        : xSide >= 0.8
-                          ? 16
-                          : -19}
+                    x={vertical ? -126 : xSide >= 0.8 ? "16" : "-19"}
                     y={vertical
                         ? xSide > endThreshold
                             ? -tooltipHeight + 6
@@ -249,9 +230,12 @@
                 </text>
             {/if}
 
+            <!-- Texto tooltip info -->
             <foreignObject
                 x={vertical
-                    ? -MOBILE_TOOLTIP_WIDTH - 15
+                    ? innerWidth < 400
+                        ? -170
+                        : -210
                     : xSide < 0.8
                       ? 8
                       : -228}
@@ -260,7 +244,7 @@
                         ? -tooltipHeight + 16
                         : -6
                     : -tooltipHeight - 32}
-                width={vertical ? MOBILE_TOOLTIP_WIDTH : 250}
+                width={vertical ? (innerWidth < 400 ? 140 : 180) : 250}
                 height={tooltipHeight}
             >
                 <div
@@ -271,7 +255,7 @@
                         : xSide >= 0.8
                           ? 'right'
                           : 'left'};
-                        user-select: {vertical ? 'none' : 'text'};"
+           user-select: {vertical ? 'none' : 'text'};"
                     bind:this={infoElement}
                     on:mousedown|stopPropagation
                     on:mouseup|stopPropagation
@@ -296,12 +280,9 @@
     .tooltip {
         color: #ecba56;
         font-size: 13px;
-        /* **Importante:** Se mantiene max-width para el modo horizontal */
         max-width: 220px;
         background: none;
         padding: 0;
-        /* box-sizing: border-box;  Asegura que el padding no afecte el ancho total */
-        box-sizing: border-box;
     }
 
     .info-tooltip {
@@ -309,15 +290,11 @@
         font-size: 13px;
     }
 
-    /* ** CORRECCIÓN CLAVE PARA EL DIVISOR AMARILLO EN MÓVIL 
-    */
     .tooltip-divider {
         border: none;
         border-top: 1px solid #ecba56;
         margin: 4px 0;
         opacity: 0.6;
-        /* Fuerza a ocupar el 100% del contenedor padre (el div.tooltip) */
-        width: 100%;
     }
 
     img {
