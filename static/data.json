@@ -1,7 +1,7 @@
 [
     {
         "year": 2000,
-        "event": "Cumbre de Desarrollo del Milenio en Nueva York, en NNUU.",
+        "event": "<a href='https://www.un.org/es/conferences/environment/newyork2000'>Cumbre de Desarrollo del Milenio</a> en Nueva York, en NNUU.",
         "event_description": "Los países se comprometen al logro de los ODM.",
         "event1": "",
         "event1_description": "",
@@ -23,7 +23,7 @@
     {
         "year": 2002,
         "event":
-            "1ª Conferencia Internacional sobre la Financiación para el Desarrollo en Monterrey, México.",
+            "<a href='https://www.un.org/esa/ffd/overview/monterrey-conference.html'>1ª Conferencia Internacional sobre la Financiación para el Desarrollo</a> en Monterrey, México.",
         "event_description":
             "Compromiso con la AOD y los países más desfavorecidos.",
         "event1": "",
@@ -37,7 +37,7 @@
         "event": "1er Foro de Alto Nivel sobre Armonización en Roma, Italia.",
         "event_description": "",
         "event1":
-            "Conferencia de Alto Nivel sobre CSS del G77 (PABA+25) en Marrakesch, Marruecos.",
+            "<a href='https://www.g77.org/marrakech/'>Conferencia de Alto Nivel sobre CSS del G77 (PABA+25)</a> en Marrakesch, Marruecos.",
         "event1_description": "",
         "event2": "",
         "event2_description": "",
@@ -97,7 +97,7 @@
             "3er Foro de Alto Nivel sobre Eficacia de la Ayuda en Accra, Ghana.",
         "event_description": "",
         "event1":
-            "2ª Conferencia Internacional sobre Financiación para el Desarrollo en Doha, Qatar.",
+            "<a href='https://www.un.org/es/conf/ffd/2008/'>2ª Conferencia Internacional sobre Financiación para el Desarrollo</a> en Doha, Qatar.",
         "event1_description": "Da seguimiento al Consenso de Monterrey.",
         "event2":
             "1ª Exposición Global sobre Desarrollo Sur-Sur auspiciada por la Oficina de las Naciones Unidas para la CSS.",
@@ -112,7 +112,7 @@
         "event": "1er Foro de Cooperación al Desarrollo de ECOSOC,",
         "event_description": "que se celebrará bienalmente.",
         "event1":
-            "Conferencia de Alto Nivel de las Naciones Unidas sobre CSS (PABA+30) en Nairobi, Kenya.",
+            "<a href='https://docs.un.org/es/a/res/64/222'>Conferencia de Alto Nivel de las Naciones Unidas sobre CSS (PABA+30)</a> en Nairobi, Kenya.",
         "event1_description": "",
         "event2": "",
         "event2_description": "",
@@ -156,7 +156,7 @@
 
                                 "initiatives": "5.000",
         "event":
-            "Conferencia de las Naciones Unidas sobre el Desarrollo Sostenible (Cumbre “Río+20”), en Rio de Janeiro, Brasil.",
+            "<a href='https://www.un.org/es/conferences/environment/rio2012'>Conferencia de las Naciones Unidas sobre el Desarrollo Sostenible (Cumbre “Río+20”)</a>, en Rio de Janeiro, Brasil.",
         "event_description": "",
         "event1": "",
         "event1_description": "",
@@ -192,10 +192,10 @@
                 "report": "8",
                         "reportUrl": "https://informesursur.org/wp-content/uploads/2021/03/informe-cooperacion-sur-sur-2015-espa-ol-nuevo.pdf",
         "event":
-            "3ª Conferencia Internacional sobre la Financiación para el Desarrollo en Etiopía.",
+            "<a href='https://www.un.org/sustainabledevelopment/es/2015/07/tercera-conferencia-internacional-sobre-la-financiacion-para-el-desarrollo/'>3ª Conferencia Internacional sobre la Financiación para el Desarrollo </a> en Etiopía.",
         "event_description":
             "Se aprueba la Agenda de Acción de Addis Abeba (AAAA).",
-        "event1": "Cumbre de Desarrollo Sostenible en Nueva York, NNUU.",
+        "event1": "<a href='https://www.un.org/es/conferences/environment/newyork2015'>Cumbre de Desarrollo Sostenible</a> en Nueva York, NNUU.",
         "event1_description":
             "Se aprueba Agenda 2030, 17 ODS y reconoce a la CSSyT como medio de implementación.",
         "event2": "",
@@ -258,7 +258,7 @@
         "event": "1ª Cumbre de los ODS en Nueva York, NNUU.",
         "event_description": "Revisa el progreso de la Agenda 2030.",
         "event1":
-            "2ª Conferencia de las Naciones Unidas sobre CSS (PABA+40) en Buenos Aires, Argentina.",
+            "<a href='https://unsouthsouth.org/bapa40/'>2ª Conferencia de las Naciones Unidas sobre CSS (PABA+40)</a> en Buenos Aires, Argentina.",
         "event1_description": "",
         "event2": "",
         "event2_description": "",
@@ -289,7 +289,7 @@
         "event2": "",
         "event2_description": "",
         "info":
-            "En la XXVII Cumbre de Andorra, se lanza la plataforma <b>informesursur.org.</b> Permite acceso digital a <b>datos, gráficos, historias, informes y documentos sobre la CSSyT</b> de Iberoamérica desde el año 2010."
+            "En la XXVII Cumbre de Andorra, se lanza la plataforma <b><a href='https://informesursur.org/'>informesursur.org.</a></b> Permite acceso digital a <b>datos, gráficos, historias, informes y documentos sobre la CSSyT</b> de Iberoamérica desde el año 2010."
     },
     {
         "year": 2022,
@@ -324,7 +324,7 @@
                         "reportUrl": "https://informesursur.org/wp-content/uploads/2024/11/informe-final-espanol.pdf",
 
                                 "initiatives": "10.432",
-        "event": "Cumbre del Futuro en Nueva York, NNUU.",
+        "event": "<a href='https://unric.org/es/4a-conferencia-internacional-sobre-financiacion-para-el-desarrollo/' target='_blank' rel='noopener noreferrer'>Cumbre del Futuro en Nueva York, NNUU.</a>",
         "event_description": "Impulsa un Pacto para el Futuro.",
         "event1": "El Foro Internacional del TOSSD (IFT),",
         "event1_description":
@@ -340,7 +340,7 @@
     {
         "year": 2025,
         "event":
-            "4ª Conferencia Internacional sobre la Financiación para el Desarrollo.",
+            "<a href='https://unric.org/es/4a-conferencia-internacional-sobre-financiacion-para-el-desarrollo/' target='_blank' rel='noopener noreferrer'>4ª Conferencia Internacional sobre la Financiación para el Desarrollo.</a>",
         "event_description": "En Sevilla, España.",
         "event1": "",
         "event1_description": "",

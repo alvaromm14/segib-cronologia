@@ -114,15 +114,32 @@
                 >
                     {#each events as e, index}
                         <div
-                            style="font-weight: normal; padding-bottom: 4px;"
+                            style="padding-bottom: 4px; pointer-events: auto;"
                             transition:scale={{
                                 duration: index > 0 ? 400 : 0,
                                 delay: index * 150,
                             }}
                         >
-                            <span style="font-weight: bold;">{e.title}</span>
-                            {e.desc ? ` ${e.desc}` : ""}
+                            <!-- Título en negrita -->
+                            <span style="font-weight: bold;">
+                                {@html e.title.replace(
+                                    /<a /g,
+                                    '<a style="color:#ecba56; text-decoration:underline;" target="_blank" rel="noopener noreferrer" ',
+                                )}
+                            </span>
+
+                            <!-- Descripción normal -->
+                            {#if e.desc}
+                                <span>
+                                    {@html " " +
+                                        e.desc.replace(
+                                            /<a /g,
+                                            '<a style="color:#ecba56; text-decoration:underline;" target="_blank" rel="noopener noreferrer" ',
+                                        )}
+                                </span>
+                            {/if}
                         </div>
+
                         {#if index < events.length - 1}
                             <hr
                                 class="tooltip-divider"
@@ -245,10 +262,15 @@
                     on:mouseup|stopPropagation
                     on:click|stopPropagation
                 >
-                    {@html hoveredEvent.info.replace(
-                        /<b>/g,
-                        '<b style="font-weight:bold; display:inline;">',
-                    )}
+                    {@html hoveredEvent.info
+                        .replace(
+                            /<b>/g,
+                            '<b style="font-weight:bold; display:inline;">',
+                        )
+                        .replace(
+                            /<a /g,
+                            '<a style="color:#589ea4; text-decoration:underline;" target="_blank" rel="noopener noreferrer" ',
+                        )}
                 </div>
             </foreignObject>
         </g>

@@ -13,7 +13,7 @@
   });
 
   let width = 550;
-  let height = 500;
+  let height = 550;
   $: innerHeight = vertical ? height - margin.top - margin.bottom : height;
 
   $: margin = vertical
@@ -59,7 +59,7 @@
 
   // Determinar orientación y alto según ancho
   $: vertical = width < 750;
-  $: height = vertical ? 750 : 500;
+  $: height = vertical ? 750 : 550;
 </script>
 
 <div
@@ -147,15 +147,15 @@
 
     <image
       href="static/images/logos.jpg"
-      x={0}
-      y={vertical ? height - 20 : height - 40}
+      x={vertical ? width - 160 : width - 250}
+      y={vertical ? 3 : 5}
       width={vertical ? "160" : "250"}
     />
 
     <image
       href="static/images/segib.png"
-      x={vertical ? innerWidth - 90 : 250}
-      y={vertical ? -10 : height - 70}
+      x={vertical ? 80 : innerWidth - 275}
+      y={vertical ? -10 : -10}
       width={vertical ? "120" : "150"}
     /></svg
   >
